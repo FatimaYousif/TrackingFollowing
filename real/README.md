@@ -1,4 +1,4 @@
-This folder contains the real world code for the (so far) progress for the tracking and following. These packages are already uploaded on the ``RPi5`` on the ``x500_2`` so you just need the following commands to run the relevant node:
+This folder contains the real world code for the progress on the target tracking and following task. These packages are already uploaded on the ``RPi5`` on the ``x500_2`` so you just need the commands below to run the relevant node:
 
  ## Requirements:
 
