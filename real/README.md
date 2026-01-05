@@ -11,7 +11,7 @@ This folder contains the real world code for the progress on the target tracking
 --> 
 
 <ol>
-  <li> ros2 run camera_ros camera_node --ros-args -p width:=4608 -p height:=2592 </li>
+  <li> ros2 run camera_ros camera_node --ros-args -p width:=640 -p height:=360 </li>
   <li> pi@pi-desktop:~$ cd new_ws/ </li>
   <li> pi@pi-desktop:~/new_ws$ source venv/bin/activate </li>
   <li> (venv) pi@pi-desktop:~/new_ws$ source install/setup.bash </li>
