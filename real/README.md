@@ -20,7 +20,10 @@ This folder contains the real world code for the progress on the target tracking
   <li> TO BE CONTINUED ............... WITH RUNNING THE NODE ..................</li>
   -->
  <li> cd Desktop </li>
- <li> ./launch.sh </li> 
+ <li> ./launch.sh </li>
+ <li> ros2 run tracking_cpp counter</li>
+ OR
+ <li> ros2 run tracking_cpp search_only</li>
  
 </ol>
 
