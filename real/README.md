@@ -28,7 +28,7 @@
 <div class="note">
 <p><strong>Note:</strong></p>
 <ol>
-    <li>In the launch file, you can change the node filename in the LaunchDescription</li>
+    <li>In the above launch file <code>launch/follow_target.launch.py</code>, you can change the node filename in the LaunchDescription</li>
     <li>Modify relevant parameters in <code>config/follow_target_params.yaml</code></li>
 </ol>
 </div>
@@ -37,7 +37,7 @@
 <pre><code>ros2 launch tracking_cpp record.launch.py</code></pre>
 
 <div class="note">
-<p><strong>Note:</strong> PX4 logs (UAV data) can be saved through QGroundControl.</p>
+<p><strong>Note:</strong> PX4 logs (UAV related data) can be saved through QGroundControl.</p>
 </div>
 
 <h2>Running on Personal Computer</h2>
