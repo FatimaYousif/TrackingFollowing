@@ -1,0 +1,45 @@
+search_target:
+  ros__parameters:
+
+    # Subscriber settings
+    subscribers:
+      detection_topic: "/detections"
+      qos_depth: 10
+
+    # # Timer settings
+    timer:
+      check_interval_ms: 100
+
+    # Flight parameters
+    flight:
+      takeoff_altitude: 1.5
+
+    # Detection loss handling
+    detection_loss:
+      hover_frames_threshold: 30
+
+    # Control gains
+    control:
+      yaw_kp: 0.1
+      distance_kp: 0.1
+      height_kp: -0.1
+
+    # Camera/Image parameters
+    camera:
+      center_x: 322.23917
+      center_y: 184.41067
+      desired_target_size: 220.0               # to change .........
+
+    # Setpoint parameters
+    setpoint:
+      hover:
+        velocity_x: 0.0
+        velocity_y: 0.0
+        velocity_z: 0.0
+        yaw_rate: 0.0
+
+      search:
+        velocity_x: 0.0
+        velocity_y: 0.0
+        velocity_z: 0.0
+        yaw_rate: 0.3

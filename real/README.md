@@ -19,12 +19,29 @@ This folder contains the real world code for the progress on the target tracking
   <li> (venv) pi@pi-desktop:~/new_ws/src/rpi_check/rpi_check$ ./simple.py </li>
   <li> TO BE CONTINUED ............... WITH RUNNING THE NODE ..................</li>
   -->
- <li> cd Desktop </li>
- <li> ./launch.sh </li>
- <li> ros2 run tracking_cpp counter</li>
- OR
- <li> ros2 run tracking_cpp search_only</li>
  
+ <li> sudo MicroXRCEAgent serial --dev /dev/ttyUSB0 -b 921600 </li>
+ <li> cd Desktop </li>
+ <li> ./launch_detections.sh </li>
+
+ For running the nodes:
+ <li> ros2 launch tracking_cpp follow_target.launch.py</li>
+ 
+ Note:
+ 1. In this launch file you can change the file name of the node you are running in LaunchDescription.
+ 2. In the config/follow_target_params.yaml, modify the relevant parameters.
+ 
+ (Optional) To record detection ROS2 bags:
+ <li> ros2 launch tracking_cpp record.launch.py</li>
+ 
+ Note: PX4 logs (related to UAV data) can be saved through QGC.
+
+
+ In the companion computer:
+ 1. Connect to X500_2 hotspot.
+ 2. with same ROS_DOMAIN_ID (24) you should be able to see the topics running in RPi.
+ 3. Launch the rqt   -->    Visualize the required topics.
+
 </ol>
 
 <!-- 

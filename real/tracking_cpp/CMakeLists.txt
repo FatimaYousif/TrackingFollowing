@@ -18,17 +18,17 @@ find_package(Eigen3 REQUIRED)
 # find_package(<dependency> REQUIRED)
 
 
-add_executable(counter src/counter.cpp)
+add_executable(following src/following.cpp)
 ament_target_dependencies(
 
-  counter
+  following
   rclcpp
   vision_msgs
   px4_ros2_cpp
   px4_msgs
 )
-target_include_directories(counter PRIVATE ${EIGEN3_INCLUDE_DIRS})
-install(TARGETS counter DESTINATION lib/${PROJECT_NAME})
+target_include_directories(following PRIVATE ${EIGEN3_INCLUDE_DIRS})
+install(TARGETS following DESTINATION lib/${PROJECT_NAME})
 
 add_executable(search_only src/search_only.cpp)
 ament_target_dependencies(
@@ -43,11 +43,36 @@ target_include_directories(search_only PRIVATE ${EIGEN3_INCLUDE_DIRS})
 install(TARGETS search_only DESTINATION lib/${PROJECT_NAME})
 
 
+add_executable(real1 src/real1.cpp)
+ament_target_dependencies(
+  real1
+  rclcpp
+  vision_msgs
+  px4_ros2_cpp
+  px4_msgs
+)
+target_include_directories(real1 PRIVATE ${EIGEN3_INCLUDE_DIRS})
+install(TARGETS real1 DESTINATION lib/${PROJECT_NAME})
 
 
 
-# Install Python launch files
-install(DIRECTORY launch
+add_executable(real2 src/real2.cpp)
+ament_target_dependencies(
+  real2
+  rclcpp
+  vision_msgs
+  px4_ros2_cpp
+  px4_msgs
+)
+target_include_directories(real2 PRIVATE ${EIGEN3_INCLUDE_DIRS})
+install(TARGETS real2 DESTINATION lib/${PROJECT_NAME})
+
+
+
+
+
+# Install Python launch and config files
+install(DIRECTORY launch config
   DESTINATION share/${PROJECT_NAME}/
 )
 
