@@ -164,7 +164,7 @@ private:
             _tracked_id = target->id;
             _has_tracked_id = true;
 
-            RCLCPP_INFO(_node.get_logger(), "Locked onto new target ID: %d", _tracked_id);
+            RCLCPP_INFO(_node.get_logger(), "Locked onto new target ID: %s",_tracked_id.c_str());
         }
         // ------------------- ID dependent ------------------------
 
@@ -239,38 +239,40 @@ public:
     }
 
     enum class State { 
-        TakingOff, 
+        // TakingOff, 
         Searching, 
         Following, 
-        RTL, 
-        Done 
+        // RTL, 
+        // Done 
     };
 
     void onActivate() override
     {
-        _state = State::TakingOff;
-        runState(State::TakingOff, px4_ros2::Result::Success);
+        // _state = State::TakingOff;
+        // runState(State::TakingOff, px4_ros2::Result::Success);
+         _state = State::Searching;
+        runState(State::Searching, px4_ros2::Result::Success);
     }
 
     void onDeactivate(DeactivateReason /*reason*/) override { }
 
     void runState(State state, px4_ros2::Result result)
     {
-        if (result != px4_ros2::Result::Success) {
-            RCLCPP_ERROR(_node.get_logger(), "State failed, going to RTL");
-            runState(State::RTL, px4_ros2::Result::Success);
-            return;
-        }
+        // if (result != px4_ros2::Result::Success) {
+        //     RCLCPP_ERROR(_node.get_logger(), "State failed, going to RTL");
+        //     runState(State::RTL, px4_ros2::Result::Success);
+        //     return;
+        // }
 
         _state = state;
 
         switch (state) {
-            case State::TakingOff:
-                RCLCPP_INFO(_node.get_logger(), "Takeoff");
-                takeoff([this](px4_ros2::Result r) {
-                    runState(State::Searching, r);
-                }, _mode.getTakeoffAltitude());
-                break;
+            // case State::TakingOff:
+            //     RCLCPP_INFO(_node.get_logger(), "Takeoff");
+            //     takeoff([this](px4_ros2::Result r) {
+            //         runState(State::Searching, r);
+            //     }, _mode.getTakeoffAltitude());
+            //     break;
 
             case State::Searching:
                 RCLCPP_INFO(_node.get_logger(), "Searching");
@@ -281,18 +283,18 @@ public:
                 RCLCPP_INFO(_node.get_logger(), "Following");
                 break;
 
-            case State::RTL:
-                RCLCPP_INFO(_node.get_logger(), "RTL");
-                rtl([this](px4_ros2::Result r) {
-                    runState(State::Done, r);
-                });
-                break;
+            // case State::RTL:
+            //     RCLCPP_INFO(_node.get_logger(), "RTL");
+            //     rtl([this](px4_ros2::Result r) {
+            //         runState(State::Done, r);
+            //     });
+            //     break;
 
-            case State::Done:
-                waitUntilDisarmed([this](px4_ros2::Result /*r*/) {
-                    RCLCPP_INFO(_node.get_logger(), "Complete");
-                });
-                break;
+            // case State::Done:
+            //     waitUntilDisarmed([this](px4_ros2::Result /*r*/) {
+            //         RCLCPP_INFO(_node.get_logger(), "Complete");
+            //     });
+            //     break;
         }
     }
 

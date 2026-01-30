@@ -28,7 +28,7 @@ search_target:
     camera:
       center_x: 322.23917
       center_y: 184.41067
-      desired_target_size: 220.0               # to change .........
+      desired_target_size: 350.0                # estimated .........
 
     # Setpoint parameters
     setpoint:

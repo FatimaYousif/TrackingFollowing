@@ -149,55 +149,65 @@ public:
     }
 
     enum class State { 
-        TakingOff, 
+        // TakingOff, 
         Yawing,
-        RTL, 
-        Done 
+        // RTL, 
+        // Done 
     };
 
     void onActivate() override
     {
-        _state = State::TakingOff;
-        runState(State::TakingOff, px4_ros2::Result::Success);
+        // _state = State::TakingOff;
+        // runState(State::TakingOff, px4_ros2::Result::Success);
+        _state = State::Yawing;
+        runState(State::Yawing, px4_ros2::Result::Success);
+               
+        
     }
 
     void onDeactivate(DeactivateReason /*reason*/) override { }
 
     void runState(State state, px4_ros2::Result result)
     {
-        if (result != px4_ros2::Result::Success) {
-            RCLCPP_ERROR(_node.get_logger(), "State failed, going to RTL");
-            runState(State::RTL, px4_ros2::Result::Success);
-            return;
-        }
+        // if (result != px4_ros2::Result::Success) {
+        //     RCLCPP_ERROR(_node.get_logger(), "State failed, going to RTL");
+        //     runState(State::RTL, px4_ros2::Result::Success);
+        //     return;
+        // }
+
+        // if (result == px4_ros2::Result::Success) {
+        //     // RCLCPP_ERROR(_node.get_logger(), "State failed, going to RTL");
+        //     runState(State::Yawing, px4_ros2::Result::Success);
+        //     return;
+        // }
 
         _state = state;
 
         switch (state) {
-            case State::TakingOff:
-                RCLCPP_INFO(_node.get_logger(), "Takeoff");
-                takeoff([this](px4_ros2::Result r) {
-                    runState(State::Yawing, r);
-                }, _mode.getTakeoffAltitude());              
-                break;
+            // case State::TakingOff:
+            //     RCLCPP_INFO(_node.get_logger(), "Takeoff");
+            //     takeoff([this](px4_ros2::Result r) {
+            //         runState(State::Yawing, r);º
+            //     }, _mode.getTakeoffAltitude());              
+            //     break;
 
             case State::Yawing:
                 RCLCPP_INFO(_node.get_logger(), "Yawing - switching to custom mode");
                 scheduleMode(ownedMode().id(), [](px4_ros2::Result) {});
                 break;
 
-            case State::RTL:
-                RCLCPP_INFO(_node.get_logger(), "RTL");
-                rtl([this](px4_ros2::Result r) {
-                    runState(State::Done, r);
-                });
-                break;
+            // case State::RTL:
+            //     RCLCPP_INFO(_node.get_logger(), "RTL");
+            //     rtl([this](px4_ros2::Result r) {
+            //         runState(State::Done, r);
+            //     });
+            //     break;
 
-            case State::Done:
-                waitUntilDisarmed([this](px4_ros2::Result /*r*/) {
-                    RCLCPP_INFO(_node.get_logger(), "Complete");
-                });
-                break;
+            // case State::Done:
+            //     waitUntilDisarmed([this](px4_ros2::Result /*r*/) {
+            //         RCLCPP_INFO(_node.get_logger(), "Complete");
+            //     });
+            //     break;
         }
     }
 
