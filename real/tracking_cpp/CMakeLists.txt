@@ -13,22 +13,36 @@ find_package(vision_msgs REQUIRED)
 find_package(px4_ros2_cpp REQUIRED)
 find_package(px4_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(std_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
 
-add_executable(following src/following.cpp)
-ament_target_dependencies(
-
-  following
-  rclcpp
-  vision_msgs
-  px4_ros2_cpp
-  px4_msgs
+# Generate interfaces first
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Plots.msg"
+  DEPENDENCIES std_msgs
 )
-target_include_directories(following PRIVATE ${EIGEN3_INCLUDE_DIRS})
-install(TARGETS following DESTINATION lib/${PROJECT_NAME})
+
+# Export dependencies
+ament_export_dependencies(rosidl_default_runtime)
+ament_export_dependencies(std_msgs)
+
+
+
+# add_executable(following src/following.cpp)
+# ament_target_dependencies(
+
+#   following
+#   rclcpp
+#   vision_msgs
+#   px4_ros2_cpp
+#   px4_msgs
+# )
+# target_include_directories(following PRIVATE ${EIGEN3_INCLUDE_DIRS})
+# install(TARGETS following DESTINATION lib/${PROJECT_NAME})
 
 add_executable(search_only src/search_only.cpp)
 ament_target_dependencies(
@@ -64,12 +78,14 @@ ament_target_dependencies(
   px4_ros2_cpp
   px4_msgs
 )
+rosidl_target_interfaces(real2  ${PROJECT_NAME} "rosidl_typesupport_cpp")
 target_include_directories(real2 PRIVATE ${EIGEN3_INCLUDE_DIRS})
 install(TARGETS real2 DESTINATION lib/${PROJECT_NAME})
 
 
 
 
+ament_export_include_directories(include)
 
 # Install Python launch and config files
 install(DIRECTORY launch config

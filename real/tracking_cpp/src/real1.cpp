@@ -63,13 +63,18 @@ public:
          // Only capture altitude once when entering search mode
         if (!_altitude_locked) {
             _hold_altitude = _vehicle_local_position->positionNed().z();
+             _hold_position_xy = Eigen::Vector2f(
+                _vehicle_local_position->positionNed().x(),
+                _vehicle_local_position->positionNed().y()
+            );
             _altitude_locked = true;
             RCLCPP_INFO(_node.get_logger(), "Search mode - Altitude locked at: %f m (NED)", _hold_altitude);
         }
 
         // Hold position and rotate to search
         px4_ros2::TrajectorySetpoint setpoint;
-        setpoint.withHorizontalVelocity(Eigen::Vector2f(0.0f, 0.0f))
+        // setpoint.withHorizontalVelocity(Eigen::Vector2f(0.0f, 0.0f))
+        setpoint.withHorizontalPosition(_hold_position_xy)
                 .withPositionZ(_hold_altitude)
                 .withYawRate(_search_yaw_rate);  // Yaw rate for rotation
         
@@ -119,7 +124,10 @@ private:
     
     std::shared_ptr<px4_ros2::OdometryAttitude> _vehicle_attitude;
     std::shared_ptr<px4_ros2::OdometryLocalPosition> _vehicle_local_position;
+    Eigen::Vector2f _hold_position_xy;
+
     float _hold_altitude;  // Default to 6m above ground (NED frame, so negative)
+    
 
     bool _altitude_locked;  // Flag to prevent continuous altitude updates
     
@@ -149,55 +157,65 @@ public:
     }
 
     enum class State { 
-        TakingOff, 
+        // TakingOff, 
         Yawing,
-        RTL, 
-        Done 
+        // RTL, 
+        // Done 
     };
 
     void onActivate() override
     {
-        _state = State::TakingOff;
-        runState(State::TakingOff, px4_ros2::Result::Success);
+        // _state = State::TakingOff;
+        // runState(State::TakingOff, px4_ros2::Result::Success);
+        _state = State::Yawing;
+        runState(State::Yawing, px4_ros2::Result::Success);
+               
+        
     }
 
     void onDeactivate(DeactivateReason /*reason*/) override { }
 
     void runState(State state, px4_ros2::Result result)
     {
-        if (result != px4_ros2::Result::Success) {
-            RCLCPP_ERROR(_node.get_logger(), "State failed, going to RTL");
-            runState(State::RTL, px4_ros2::Result::Success);
-            return;
-        }
+        // if (result != px4_ros2::Result::Success) {
+        //     RCLCPP_ERROR(_node.get_logger(), "State failed, going to RTL");
+        //     runState(State::RTL, px4_ros2::Result::Success);
+        //     return;
+        // }
+
+        // if (result == px4_ros2::Result::Success) {
+        //     // RCLCPP_ERROR(_node.get_logger(), "State failed, going to RTL");
+        //     runState(State::Yawing, px4_ros2::Result::Success);
+        //     return;
+        // }
 
         _state = state;
 
         switch (state) {
-            case State::TakingOff:
-                RCLCPP_INFO(_node.get_logger(), "Takeoff");
-                takeoff([this](px4_ros2::Result r) {
-                    runState(State::Yawing, r);
-                }, _mode.getTakeoffAltitude());              
-                break;
+            // case State::TakingOff:
+            //     RCLCPP_INFO(_node.get_logger(), "Takeoff");
+            //     takeoff([this](px4_ros2::Result r) {
+            //         runState(State::Yawing, r);º
+            //     }, _mode.getTakeoffAltitude());              
+            //     break;
 
             case State::Yawing:
                 RCLCPP_INFO(_node.get_logger(), "Yawing - switching to custom mode");
                 scheduleMode(ownedMode().id(), [](px4_ros2::Result) {});
                 break;
 
-            case State::RTL:
-                RCLCPP_INFO(_node.get_logger(), "RTL");
-                rtl([this](px4_ros2::Result r) {
-                    runState(State::Done, r);
-                });
-                break;
+            // case State::RTL:
+            //     RCLCPP_INFO(_node.get_logger(), "RTL");
+            //     rtl([this](px4_ros2::Result r) {
+            //         runState(State::Done, r);
+            //     });
+            //     break;
 
-            case State::Done:
-                waitUntilDisarmed([this](px4_ros2::Result /*r*/) {
-                    RCLCPP_INFO(_node.get_logger(), "Complete");
-                });
-                break;
+            // case State::Done:
+            //     waitUntilDisarmed([this](px4_ros2::Result /*r*/) {
+            //         RCLCPP_INFO(_node.get_logger(), "Complete");
+            //     });
+            //     break;
         }
     }
 
