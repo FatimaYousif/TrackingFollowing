@@ -59,9 +59,9 @@ public:
         //     std::bind(&FollowTarget::detectionCallback, this, std::placeholders::_1));
 
          _detection_sub =   _node.create_subscription<ultralytics_ros::msg::YoloResult>(
-            _detection_topic,
-            rclcpp::QoS(10).reliable(),
-            std::bind(&FollowTarget::detectionCallback, this, std::placeholders::_1));
+    _detection_topic,
+    rclcpp::QoS(10).best_effort(),
+    std::bind(&FollowTarget::detectionCallback, this, std::placeholders::_1));
 
         _plots_pub = _node.create_publisher<tracking_cpp::msg::Plots>(
         "/follow_target/plots", 10);
@@ -253,7 +253,7 @@ private:
     // void detectionCallback(const yolo_msgs::msg::DetectionArray::SharedPtr data)
     {
 
-        // RCLCPP_INFO(_node.get_logger(), "in the detection callback...");
+        RCLCPP_INFO(_node.get_logger(), "in the detection callback...");
 
         // if (data->detections.empty())
         // if (msg->detections.detections.empty())
@@ -312,7 +312,7 @@ private:
 
         RCLCPP_INFO(_node.get_logger(), "x: %.1f y: %.1f | size_y: %.1f", x, y, size_y);
         
-        // std::string id = target.id;
+        std::string id = target.id;
 
         float current_yaw = px4_ros2::quaternionToYaw(_vehicle_attitude->attitude());
 
@@ -374,7 +374,7 @@ private:
     float _hold_altitude;  // Altitude to maintain (NED frame)
     bool _altitude_locked;  // Flag to prevent continuous altitude updates
     
-    // std::string _tracked_id;
+    std::string _tracked_id;
     bool _has_tracked_id = false;
 
     // Parameters loaded from YAML

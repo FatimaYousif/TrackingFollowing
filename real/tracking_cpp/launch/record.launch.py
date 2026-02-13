@@ -9,8 +9,11 @@ def generate_launch_description():
     bag_output = f"/tmp/rosbags/record_{timestamp}"
 
     topics_to_record = [
-        '/detections',
-        '/camera/image_raw'
+        '/yolo_result',
+        '/zed/zed_node/rgb/image_rect_color',
+        '/fmu/out/vehicle_odometry',
+        '/follow_target/plots',
+        '/fmu/in/trajectory_setpoint'
     ]
 
     # Record process
