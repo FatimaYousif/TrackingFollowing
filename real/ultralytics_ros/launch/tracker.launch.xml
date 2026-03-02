@@ -6,10 +6,10 @@
   <arg name="input_topic" default="/zed/zed_node/rgb/image_rect_color"/>
   <arg name="result_topic" default="/yolo_result"/>
   <arg name="result_image_topic" default="/yolo_image"/>
-  <arg name="conf_thres" default="0.25"/>
+  <arg name="conf_thres" default="0.15"/>      <!--25%-->
   <arg name="iou_thres" default="0.45"/>
   <arg name="max_det" default="300"/>
-  <arg name="tracker" default="bytetrack.yaml"/>
+  <arg name="tracker" default="botsort.yaml"/>
   <arg name="device" default="cuda:0"/>
   <arg name="result_conf" default="true"/>
   <arg name="result_line_width" default="1"/>
