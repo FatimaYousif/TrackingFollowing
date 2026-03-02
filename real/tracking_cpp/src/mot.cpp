@@ -90,7 +90,9 @@ public:
             "/follow_target/plots", 10);
     }
 
-    void onActivate()   override { RCLCPP_INFO(_node.get_logger(), "Mode Activated !!!"); }
+    void onActivate()   override { 
+    _hold_altitude = getCurrentAltitude();    
+    RCLCPP_INFO(_node.get_logger(), "Mode Activated !!!"); }
     void onDeactivate() override { RCLCPP_INFO(_node.get_logger(), "Mode Deactivated !!!"); }
     void updateSetpoint(float /*dt_s*/) override { }
 
@@ -284,9 +286,16 @@ private:
         float vx = vbx * std::cos(current_yaw);
         float vy = vbx * std::sin(current_yaw);
 
-        _trajectory_setpoint->update(
-            Eigen::Vector3f(vx, vy, vbz),
-            {}, {}, yaw_rate);
+        // _trajectory_setpoint->update(
+        //     Eigen::Vector3f(vx, vy, vbz),
+        //     {}, {}, yaw_rate);
+
+        px4_ros2::TrajectorySetpoint setpoint;
+        setpoint.withVelocity(Eigen::Vector3f(vx, vy, 0.0f))  // Horizontal velocities, zero vertical
+                .withPositionZ(_hold_altitude)                  // Explicit altitude hold
+                .withYawRate(yaw_rate);
+
+        _trajectory_setpoint->update(setpoint);
 
         _last_cmd_vx       = vx;
         _last_cmd_vy       = vy;

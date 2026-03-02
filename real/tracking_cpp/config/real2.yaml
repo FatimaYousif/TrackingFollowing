@@ -16,7 +16,7 @@ follow_target:
 
     # Detection loss handling
     detection_loss:
-      hover_frames_threshold: 30
+      hover_frames_threshold: 1000
 
     # Control gains
     control:
@@ -31,7 +31,7 @@ follow_target:
     camera:
       center_x: 169.063
       center_y: 92.983
-      desired_target_size: 34.0        # REDO <--- 
+      desired_target_size: 20.0        # 34 -> 20 <--- 
 
     # Setpoint parameters
     setpoint:

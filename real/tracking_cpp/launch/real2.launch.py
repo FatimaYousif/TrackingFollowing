@@ -28,11 +28,33 @@ def generate_launch_description():
 
 
 
+
+    real2_plots = Node(
+        package='tracking_cpp',  
+        executable='real2_plots',
+        name='follow_target',
+        output='screen',
+        parameters=[config_file]
+    )
+
+    
+    mot = Node(
+        package='tracking_cpp',  
+        executable='mot',
+        name='follow_target',
+        output='screen',
+        parameters=[config_file]
+    )
+
+
+
     return LaunchDescription([
         # follow_target_node
         # counter_node
         # real1
-        real2,
+        # real2,
+        # real2_plots
+        mot
         # following22222
         # real2_backup
         # checking

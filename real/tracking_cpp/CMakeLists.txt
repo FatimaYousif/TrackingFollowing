@@ -104,6 +104,48 @@ target_include_directories(real2 PRIVATE
 )
 install(TARGETS real2 DESTINATION lib/${PROJECT_NAME})
 
+
+
+
+add_executable(real2_plots src/real2_plots.cpp)
+ament_target_dependencies(
+  real2_plots
+  rclcpp
+  vision_msgs
+  px4_ros2_cpp
+  px4_msgs
+  ultralytics_ros
+)
+# Link against the generated interfaces
+rosidl_target_interfaces(real2_plots ${PROJECT_NAME} "rosidl_typesupport_cpp")
+target_include_directories(real2_plots PRIVATE 
+  ${EIGEN3_INCLUDE_DIRS}
+  ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp
+)
+install(TARGETS real2_plots DESTINATION lib/${PROJECT_NAME})
+
+
+
+add_executable(mot src/mot.cpp)
+ament_target_dependencies(
+  mot
+  rclcpp
+  vision_msgs
+  px4_ros2_cpp
+  px4_msgs
+  ultralytics_ros
+)
+# Link against the generated interfaces
+rosidl_target_interfaces(mot ${PROJECT_NAME} "rosidl_typesupport_cpp")
+target_include_directories(mot PRIVATE 
+  ${EIGEN3_INCLUDE_DIRS}
+  ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp
+)
+install(TARGETS mot DESTINATION lib/${PROJECT_NAME})
+
+
+
+
 # Install Python launch and config files
 install(DIRECTORY launch config
   DESTINATION share/${PROJECT_NAME}/

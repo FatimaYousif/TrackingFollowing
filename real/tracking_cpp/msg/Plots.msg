@@ -35,3 +35,15 @@ int32 no_detection_counter
 
 # Altitude hold
 # float32 hold_altitude
+
+
+# paper
+
+
+float32 elapsed_time
+float32 visual_accuracy
+float32 fps
+float32 controller_error
+
+float32 image_center_x
+float32 image_center_y
