@@ -27,7 +27,7 @@ Must have installed:
 <ol>
   <li> ros2 launch sim one.launch.py </li>
   <li> ros2 launch yolo_bringup yolo.launch.py </li>
-  <li> ros2 run sim counter </li>
+  <li> ros2 run sim following </li>
   or
   <li> ros2 run sim search_only </li>
 </ol>
