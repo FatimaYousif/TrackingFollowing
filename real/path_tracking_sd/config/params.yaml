@@ -1,0 +1,7 @@
+path_control:
+  ros__parameters:
+    take_off_height: 5.0         # [m] Initial ascent height after takeoff
+    take_off_velocity: 0.5 # [m.s] Speed ith which the drone will take off
+    ppc_velocity:  1.0  # [m/s] Stay below 2.0!
+    max_acceleration: 2.0 # [m/s^2] This seems to work fine but still needs tuning! 
+    state_transition_tolerance: 0.3  # [m] Distance to waypoint to consider it reached
