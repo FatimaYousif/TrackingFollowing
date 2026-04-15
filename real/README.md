@@ -2,12 +2,12 @@
 <html>
 <body>
 
-<h1>Target Tracking and Following System</h1>
+<h1>GRASP Path Planning and Target Tracking and Following Integration System</h1>
 
 <h2>Overview</h2>
 <p>
-This repository contains the real-world implementation for target tracking and following tasks.
-The packages are deployed on the onboard Jetson system of the x500_5 UAV equipped with a ZED2 camera.
+This repository contains the real-world implementation for GRASP path planner and target tracking and following integration.
+The packages are deployed on the onboard Jetson system of the x500_5 UAV equipped with FLIR BOSON thermal and RGB cameras mounted on the GREMSY gimbal.
 </p>
 
 <h2>System Configuration</h2>
@@ -16,41 +16,30 @@ The packages are deployed on the onboard Jetson system of the x500_5 UAV equippe
     <li>Onboard Computer: NVIDIA Jetson</li>
     <li>JetPack Version: 6.2.1</li>
     <li>CUDA Version: 12.6</li>
-    <li>Camera: ZED2</li>
+    <li>Camera: FLIR BOSON thermal and RGB cameras mounted on GREMSY gimbal.</li>
 </ul>
 
 <h2>Requirements</h2>
 <ol>
     <li>Code deployed on Jetson onboard computer</li>
     <li>Proper physical connection between Jetson and PX4</li>
-    <li>ZED2 camera connected and detected</li>
+    <li> FLIR BOSON thermal and RGB cameras connected and detected</li>
 </ol>
 
 <h2>Running on Jetson (Onboard Computer)</h2>
 
-<h3>1. Start MicroXRCE Agent</h3>
-<pre><code>MicroXRCEAgent udp4 -p 8888</code></pre>
+<h3>1. Start RGB camera </h3>
+<pre><code>ros2 run usb_cam usb_cam_node_exe --ros-args --params-file /home/x500/security_ws/src/usb_cam/config/params_1.yaml</code></pre>
 
-<h3>2. Launch ZED2 Camera</h3>
-<pre><code>ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2</code></pre>
-
-<h3>3. Start Detection and Tracking (Ultralytics)</h3>
+<h3>2. Start Detection and Tracking (Ultralytics)</h3>
 <pre><code>ros2 launch ultralytics_ros tracker.launch.xml debug:=false</code></pre>
 
-<h3>4. Run Main Tracking Node</h3>
-<pre><code>ros2 launch tracking_cpp real1.launch.py</code></pre>
+<h3>3. Run the Launch file to Launch all GRASP related Nodes</h3>
+<pre><code>ros2 launch path_tracking launch_grasp.launch.py</code></pre>
 
-<p>OR</p>
+<h3>4. Run the service to plan a path</h3>
+<pre><code>ros2 service call plan std_srvs/srv/Trigger {}</code></pre>
 
-<pre><code>ros2 launch tracking_cpp real2.launch.py</code></pre>
-
-<div class="note">
-<p><strong>Note:</strong></p>
-<ol>
-    <li>Choose <code>real1.launch.py</code> if you want to test the searching the target test only or <code>real2.launch.py</code> for testing the complete tracking and following pipeline</li>
-    <li>Modify relevant parameters inside your configuration YAML files if needed.</li>
-</ol>
-</div>
 
 <h2>Running on Personal Computer</h2>
 
