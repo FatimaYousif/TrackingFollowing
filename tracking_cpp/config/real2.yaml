@@ -1,0 +1,61 @@
+follow_target:
+  ros__parameters:
+
+    # Subscriber settings
+    rgb_subscribers:
+      detection_topic: "/yolo_result"
+      qos_depth: 10
+
+    thermal_subscribers:
+      detection_topic: "/yolo/bbox_info"
+      qos_depth: 10
+
+
+    # # Timer settings
+    timer:
+      check_interval_ms: 100
+
+    # Flight parameters
+    flight:
+      takeoff_altitude: 1.5
+
+    # Detection loss handling
+    detection_loss:
+      hover_frames_threshold: 2000
+
+    # Control gains
+    control:
+      yaw_kp: 0.5
+      distance_kp: 0.8
+      height_kp: -0.1
+
+    # Camera/Image parameters
+    # checking cx and cy from:
+    # ros2 topic echo /zed/zed_node/rgb/camera_info    --> p matrix
+
+    # rgb camera
+    rgb_camera:
+      center_x: 969.99036
+      center_y: 532.19128
+      desired_target_size: 292.0        # ctt 292 px ---> robor =  34 -> 20 <--- 
+
+    # thermal camera (change cx and cy)
+    thermal_camera:
+      center_x: 0.0
+      center_y: 0.0
+      desired_target_size: 0.0        # need to calibrate for the thermal camera
+
+
+    # Setpoint parameters
+    setpoint:
+      hover:
+        velocity_x: 0.0
+        velocity_y: 0.0
+        velocity_z: 0.0
+        yaw_rate: 0.0
+
+      search:
+        velocity_x: 0.0
+        velocity_y: 0.0
+        velocity_z: 0.0
+        yaw_rate: 0.3
