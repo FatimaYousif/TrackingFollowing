@@ -1,0 +1,38 @@
+path_control:
+  ros__parameters:
+    take_off_height: 14.0         # [m] Initial ascent height after takeoff
+    take_off_velocity: 2.0 # [m.s] Speed ith which the drone will take off
+    ppc_velocity:  1.0  # [m/s] Stay below 2.0!
+    max_acceleration: 2.0 # [m/s^2] This seems to work fine but still needs tuning! 
+    state_transition_tolerance: 0.4  # [m] Distance to waypoint to consider it reached
+
+    #  for integration (grasp and person following)
+    rgb_subscribers:
+      detection_topic: "/yolo_result"
+
+
+    thermal_subscribers:
+      detection_topic: "/yolo/bbox_info"
+    
+
+    detection_loss:
+      hover_frames_threshold: 1000
+
+    control:
+      yaw_kp: 0.5
+      distance_kp: 0.8
+
+    rgb_camera:
+      center_x: 969.99036            # cx and cy from calibration_0.3 exp on RGB camera
+      center_y: 532.19128
+      desired_target_size: 292.0      # ------------- calibrated at CTT on 17.04
+
+
+    thermal_camera:
+      center_x: 0.0            # NOW BENJAMIN suggested to use his calibration params instead - cx and cy from calibration_0.3 exp on FLIR camera
+      center_y: 0.0
+      desired_target_size: 0.0     # ------------- to change for FLIR camera
+
+    setpoint:
+      search:
+        yaw_rate: 0.3
