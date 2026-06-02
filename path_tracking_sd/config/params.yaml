@@ -1,0 +1,41 @@
+path_control:
+  ros__parameters:
+    # General
+    take_off_height: 4.0              # [m] Initial ascent height after takeoff
+    take_off_velocity: 1.5            # [m.s] Speed ith which the drone will take off
+    state_transition_tolerance: 0.4   # [m] Distance to waypoint to consider it reached
+
+    # Pure Pursuit Control
+    ppc_velocity:  1.0                # [m/s] Stay below 2.0!
+    max_acceleration: 2.0             # [m/s^2] This seems to work fine but still needs tuning! 
+
+    # Grasp & Person following integration
+    enable_grasp_patrol: true
+    enable_person_following: true
+    detection_camera_type: "RGB"    # choose from ["RGB", "THERMAL"]
+
+    detection_loss:
+      hover_frames_threshold: 1000
+
+    control:
+      yaw_kp: 0.5
+      distance_kp: 0.8
+
+    setpoint:
+      search:
+        yaw_rate: 0.3
+
+    # RGB and thermal
+    rgb_camera:
+      detection_topic: "/yolo_result"
+      center_x: 640.0           # cx and cy from calibration_0.3 exp on RGB camera, optical center
+      center_y: 320.0
+      desired_target_size: 100.0      # ------------- calibrated at CTT on 17.04
+
+    thermal_camera:
+      detection_topic: "/yolo/bbox_info"
+      center_x: 325.901704
+      center_y: 258.301975           
+      desired_target_size: 0.0     # ------------- TODO for FLIR camera
+
+    
